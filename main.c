@@ -8,29 +8,30 @@
 #include "stdbool.h"
 #include "header.h"
 volatile int edge=500;
-void turnLeft()
+void tL()
 {	WconL =0;
 	WconR = 0;
-	while(WconR + WconL <25){
-		loadLeftValue(-2400);
-		loadRightValue(2400);
+	while(WconR + WconL <26){
+		powerLeft(-1800);
+		powerRight(-1800);
 	}
-	loadLeftValue(0);
-	loadRightValue(0);
+	powerLeft(0);
+	powerRight(0);
 	
 	dir = (dir+1)%4;
 
 		
 };
-void turnRight()
+void tR()
 {
 	WconL = 0;
 	WconR = 0;
-	loadLeftValue(2800);
-	loadRightValue(-2800);
-	while(WconR + WconL <26);
-	loadLeftValue(0);
-	loadRightValue(0);
+	while(WconR + WconL <26){
+	powerLeft(1800);
+	powerRight(1800);
+	}
+	powerLeft(0);
+	powerRight(0);
 	
 	dir = dir-1;
 	if(dir < 0){
@@ -40,18 +41,20 @@ int main(void) {
 
 variousInit();	
 SPI2_init();
-TIM2_init();
+//TIM2_init();
 counter_init();
 wheelInit();
 USARTInitNoInterrupt();
-WIFIInit();
-USARTInitInterrupt();
+//WIFIInit();
+//USARTInitInterrupt();
 DelayMs(200);
-	
+		tL();
+	DelayMs(200);
+		tR();	
 	while(1)
 {
 	
-	turnLeft();	
+
 	//*******************************************
 /*
 	while(ballCoorX>edge);
